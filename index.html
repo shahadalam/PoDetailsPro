@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript Practical</title>
+
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+    text-align: center;
+}
+
+
+.RegistrationForm {
+    text-align: left;
+    width: 50%;
+    padding: 25px;
+    background: #f8f9fa;
+}
+
+legend {
+    text-align: center;
+    color: #137853;
+}
+
+input{
+    margin-bottom: 20px;
+}
+
+select{
+    margin-bottom: 50px;
+}
+
+button{
+    margin-right : 20px;
+}
+
+.error{
+    color : red;
+    font-size: 20px;
+  
+}
+</style>
+<body>
+
+  <div style="display:flex;">
+    <form class="RegistrationForm">
+        <fieldset>
+            <legend>Po Details Task</legend>
+    
+            <div style="text-align:center ;">
+                <span class="error"></span>
+            </div>
+    
+            <label for="fullName" class="form-label">Supplier Name</label>
+            <input type="text" class="form-control" id="fullName" placeholder="Enter Name" required>
+    
+            <label for="po_value" class="form-label">PO Value</label>
+                <input type="number" id="PO_number" class="form-control"  placeholder="Enter po value" required>
+    
+                <label for="mobile" class="form-label">Re-enter Po Value</label>
+            <input type="number" class="form-control" id="enterpo"  placeholder="Repeat Po Value" required>
+    
+            <label for="mobile" class="form-label">Paid Amount</label>
+            <input type="number" class="form-control" id="paid_amt"  placeholder="Enter Paid Amount" required>
+    
+    
+            <label for="email" class="form-label">Status</label>
+            <input type="text" class="form-control" id="status" placeholder="Failed" disabled>
+    
+    
+        
+
+  <button type="button" onclick="validate()" class="btn btn-primary validate">Validate</button>
+    
+    <button class="submit bg-success btn">Submit</button>
+
+        </fieldset>
+      </form>
+    <div class="" style="width: 50%;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Po number</th>
+                    <th>Paid Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+    
+            </tbody>
+        </table>
+    </div>
+     
+  </div>
+
+   <script>
+const Name = document.querySelector('#fullName');
+const Ponumber = document.querySelector('#PO_number');
+const reenter_po = document.querySelector('#enterpo');
+const mobile = document.querySelector('#paid_amt');
+const gender = document.querySelector('#status');
+const error = document.querySelector('.error');
+const submit = document.querySelector('.submit');
+const tbody = document.querySelector('.tbody');
+
+
+function validate(){
+    // all fields are required..
+
+    // address allow only alpanumeric values..
+    var RegEx = /[0-9]/;
+    let valid = RegEx.test(Ponumber.value);
+    let numbervalid = RegEx.test(mobile.value);
+
+    if(Name.value.length <= 5 || Name.value.length >= 15){
+        document.querySelector('.error').innerHTML = 'Supplier Name must between 5 to 15....!';
+        document.querySelector('#fullName').style.border = "2px solid red";
+    }
+    else if (!valid) {
+        document.querySelector('.error').innerHTML = 'Po Number must be a number';
+        document.querySelector('#fullName').style.border = "";
+        document.querySelector('#PO_number').style.border = "2px solid red";
+    }else if(reenter_po.value != Ponumber.value){
+        document.querySelector('.error').innerHTML = 'po number does not match';
+        document.querySelector('#PO_number').style.border = "";
+        document.querySelector('#enterpo').style.border = " 2px solid red";
+    }else if(!numbervalid){
+        document.querySelector('.error').innerHTML = 'Please enter amount in number';
+        document.querySelector('#paid_amt').style.border = "2px solid red";
+        document.querySelector('#enterpo').style.border = "";
+    }
+    else{
+        document.querySelector('.error').innerHTML = '';
+        document.querySelector('#fullName').style.border = "";
+        document.querySelector('#PO_number').style.border = "";
+        document.querySelector('#enterpo').style.border = "";
+        document.querySelector('#paid_amt').style.border = "";
+    }
+
+
+    
+
+    if(error.innerHTML.length == 0){
+        document.querySelector('#status').placeholder = "Success";
+        document.querySelector('#fullName').style.border = "2px solid  green";
+        document.querySelector('#PO_number').style.border = "2px solid  green";
+        document.querySelector('#enterpo').style.border = "2px solid  green";
+        document.querySelector('#paid_amt').style.border = "2px solid  green";
+        document.querySelector('.validate').style.display = "none";
+    }
+
+
+
+
+
+
+}
+
+submit.addEventListener('click',() => {
+
+if(document.querySelector('#status').placeholder == "Success"){
+    tbody.innerHTML += `<tr>
+                <td>${Name.value}</td>
+                <td>${Ponumber.value}</td>
+                <td>${mobile.value}</td>
+                <td>Success</td>
+            </tr>`;
+            document.querySelector(".RegistrationForm").reset();
+Name.value = "";
+Ponumber.vaule = 
+mobile.vaule = 0;
+reenter_po.value = 
+document.querySelector('#fullName').style.border = "";
+document.querySelector('#PO_number').style.border = "";
+document.querySelector('#enterpo').style.border = "";
+document.querySelector('#paid_amt').style.border = "";
+document.querySelector('#status').placeholder = "Failed";
+document.querySelector('.validate').style.display = "";
+}else{
+    document.querySelector('.error').innerHTML = 'Please first validate';
+}
+})
+   </script> 
+</body>
+</html>
